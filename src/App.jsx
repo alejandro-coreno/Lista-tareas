@@ -1,41 +1,11 @@
-import { useState } from "react";
-import Formulario from "./assets/components/Formulario";
+import Formulario from "./components/Formulario";
 
 const App = () => {
-
-  const [tareas, setTareas] = useState([
-    {
-      id: 1,
-      nombre: 'Estudiar para el examen',
-    },
-
-    {
-      id: 2, 
-      nombre: 'Aprender Firebase'
-    }
-    ,
-
-
-    {
-      id: 3, 
-      nombre: 'Aprender Next JS'
-    }
-    
-    ,
-
-    {
-      id: 4, 
-      nombre: 'Aprender Vue'
-    }
-  ]);
-
-  const agregarTarea = (tarea) =>{
-    setTareas({...tareas, tarea });
-  } 
-
-
   return (
-    <Formulario tareas={tareas}/>
+    <div className="w-1/2 mx-auto my-10 h-auto flex flex-col gap-6 border border-indigo-400 p-5 shadow-md rounded-md">
+      <h1 className="text-3xl tracking-wide text-blue-700">Lista de Tareas</h1>
+      <Formulario />
+    </div>
   );
 };
 
