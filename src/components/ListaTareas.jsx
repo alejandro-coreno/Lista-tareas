@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { onSnapshot, collection } from "firebase/firestore";
+import Tarea from "./Tarea,";
 
-const Tarea = () => {
+const ListaTareas = () => {
 
     const [tareas, setTareas] = useState([]);
 
@@ -16,23 +17,17 @@ const Tarea = () => {
                     nombre: data.nombre
                 }
             });
-
             setTareas( arregloTareas );
         }); 
 
     }, []);
-
-    console.log( tareas );
-
 
     return (
         <div className="w-full flex flex-col gap-3">
 
             {
                 tareas.length > 0 ? tareas.map((tarea) => (
-                    <div key={tarea.id} className="border border-indigo-200 p-2 rounded-md  shadow-sm">
-                            <h3 className="font-medium tracking-wide text-indigo-600">{ tarea.nombre }</h3>
-                    </div>
+                    <Tarea key={tarea.id} nombre={ tarea.nombre } id={tarea.id}/>
                 ))
                 :
                 <h1 className="text-blue-600 text-center text-xl tracking-wider">No hay tareas</h1>
@@ -42,4 +37,4 @@ const Tarea = () => {
     );
 };
 
-export default Tarea;
+export default ListaTareas;

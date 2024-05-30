@@ -12,8 +12,9 @@ const Formulario = () => {
         nombre: nuevaTarea
       });
       console.log('Tarea agregada correctamente');
-    }catch ( error ){
-      console.log( error );
+    }
+    catch ( error ){
+      console.log( error.message );
     }
 
     setNuevaTarea('');
