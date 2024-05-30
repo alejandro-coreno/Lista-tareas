@@ -1,5 +1,5 @@
 import Formulario from "./components/Formulario";
-import Tarea from "./components/Tarea";
+import Tarea from "./components/ListaTareas";
 
 const App = () => {
   return (
