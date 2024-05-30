@@ -5,9 +5,17 @@ import {db} from "../firebase/firebaseConfig";
 const Formulario = () => {
   const [nuevaTarea, setNuevaTarea] = useState("");
 
-  const handleTarea = (e) => {
+  const handleTarea = async (e) => {
     e.preventDefault();
-    alert('Se agrega nueva tarea:  ' + nuevaTarea);
+    try{
+      await addDoc(collection(db, 'tareas'), {
+        nombre: nuevaTarea
+      });
+      console.log('Tarea agregada correctamente');
+    }catch ( error ){
+      console.log( error );
+    }
+
     setNuevaTarea('');
   };
 
