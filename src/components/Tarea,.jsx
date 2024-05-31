@@ -1,8 +1,9 @@
-import { doc , deleteDoc} from "firebase/firestore"
+import { useState } from "react";
+import { doc , deleteDoc, updateDoc } from "firebase/firestore"
 import { db } from "../firebase/firebaseConfig";
+import Swal from "sweetalert2";
 import iconBote from "../assets/img/icon_bote.png";
 import iconEdit from "../assets/img/icon-edit.png"
-import { useState } from "react";
 
 const Tarea = ({ nombre , id}) => {
 
@@ -19,9 +20,33 @@ const Tarea = ({ nombre , id}) => {
         }
     }
 
-    const updateTarea = (e) => {
+    const updateTarea = async (e) => {
         e.preventDefault();
-        setActualizar(!actulizar);
+        try {
+            await updateDoc(doc(db, 'tareas', id),{
+                nombre: actualizarTarea
+            })
+        }
+        catch( error ){
+            console.log( error );
+        }
+
+        const Toast = await Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Signed in successfully"
+          });
+        setActualizar(true);
     }
 
     return ( 
@@ -31,7 +56,7 @@ const Tarea = ({ nombre , id}) => {
                 <>
                     <h3 className="font-medium tracking-wide text-blue-500">{ nombre }</h3>
                     <div className="flex gap-3">
-                        <img onClick={updateTarea}  src={iconEdit} alt="edit" className="opacity-0 group-hover:opacity-100 cursor-pointer" 
+                        <img onClick={() => setActualizar(!actulizar)}  src={iconEdit} alt="edit" className="opacity-0 group-hover:opacity-100 cursor-pointer" 
                         />
                         <img onClick={ () => deleteTarea(id)} src={iconBote} alt="bote" className="opacity-0 group-hover:opacity-50 cursor-pointer"/>
                     </div>
@@ -39,7 +64,7 @@ const Tarea = ({ nombre , id}) => {
 
                 :
                 <>
-                    <form action="" className="w-full flex gap-2">
+                    <form action="" className="w-full flex gap-2" onSubmit={updateTarea}>
                          <input 
                             className="w-[65%] p-2 border border-indigo-400 rounded-sm"
                             type="text" 
@@ -51,7 +76,7 @@ const Tarea = ({ nombre , id}) => {
                         />
 
                         <div className="w-[35%] flex gap-2">
-                            <button className="w-1/2 rounded-md bg-blue-500 font-medium p-2 text-white">Actualizar</button>
+                            <button type="submit" className="w-1/2 rounded-md bg-blue-500 font-medium p-2 text-white">Actualizar</button>
                             <button className="w-1/2 rounded-md bg-red-400 font-medium p-2 text-white" onClick={() => setActualizar(!actulizar)}>Cerrar</button>
                         </div>
                     </form>
