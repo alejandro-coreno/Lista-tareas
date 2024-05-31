@@ -7,6 +7,11 @@ const Formulario = () => {
 
   const handleTarea = async (e) => {
     e.preventDefault();
+
+    if (nuevaTarea.trim() === '') {
+      alert('Campo Vacio');
+      return;
+    }
     try{
       await addDoc(collection(db, 'tareas'), {
         nombre: nuevaTarea
@@ -29,7 +34,7 @@ const Formulario = () => {
         value={nuevaTarea}
         placeholder="Escribe una tarea"
         onChange={(e) => setNuevaTarea(e.target.value)}
-        className="w-3/4 outline-none p-2 border-b-2 border-blue-400 placeholder: font-bold"
+        className="w-3/4 outline-none p-2 border-b-2 border-blue-400 placeholder:italic placeholder:tracking-wide"
       />
       <button type="submit" className="p-2 w-3/12 bg-blue-400 rounded-md shadow-md text-white font-medium hover:bg-blue-600 duration-100 tracking-wide">Agregar</button>
     </form>
